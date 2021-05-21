@@ -13,6 +13,7 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Important, function (sprite, otherSprite) {
+    otherSprite.destroy()
     game.splash("Jump!")
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.GoldPatty, function (sprite, otherSprite) {
@@ -149,7 +150,7 @@ let PrettyPatties: Sprite = null
 let Hive: Sprite = null
 let KrabbyPatty: Sprite = null
 let mySprite: Sprite = null
-game.splash("Make it to the golden krabby patty and avoid the jellyfish hives")
+game.splash("Make it to the golden Krabby patty and avoid the jellyfish hives")
 scene.setBackgroundColor(9)
 mySprite = sprites.create(assets.image`Spongebob`, SpriteKind.Player)
 mySprite.say("I'm Ready!", 2000)
@@ -415,7 +416,7 @@ for (let value of tiles.getTilesByType(assets.tile`myTile7`)) {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
+        . . . . . . . f . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
