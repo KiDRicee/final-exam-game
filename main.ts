@@ -1,5 +1,8 @@
 namespace SpriteKind {
     export const TheHive = SpriteKind.create()
+    export const PrettyPatty = SpriteKind.create()
+    export const GoldPatty = SpriteKind.create()
+    export const Important = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
     game.over(false, effects.melt)
@@ -8,6 +11,17 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mySprite.vy == 0) {
         mySprite.vy = -150
     }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Important, function (sprite, otherSprite) {
+    game.splash("Jump!")
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.GoldPatty, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    game.over(true, effects.confetti)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.PrettyPatty, function (sprite, otherSprite) {
+    info.changeLifeBy(1)
+    otherSprite.destroy()
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     info.changeScoreBy(1)
@@ -129,11 +143,16 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     otherSprite.destroy()
 })
 let Bee: Sprite = null
+let Message: Sprite = null
+let GoldenPatty: Sprite = null
+let PrettyPatties: Sprite = null
 let Hive: Sprite = null
 let KrabbyPatty: Sprite = null
 let mySprite: Sprite = null
+game.splash("Make it to the golden krabby patty and avoid the jellyfish hives")
 scene.setBackgroundColor(9)
 mySprite = sprites.create(assets.image`Spongebob`, SpriteKind.Player)
+mySprite.say("I'm Ready!", 2000)
 info.setLife(5)
 mySprite.setPosition(14, 99)
 controller.moveSprite(mySprite, 100, 0)
@@ -342,4 +361,70 @@ for (let value2 of tiles.getTilesByType(assets.tile`myTile4`)) {
         `, SpriteKind.TheHive)
     tiles.placeOnTile(Hive, value2)
     tiles.setTileAt(value2, assets.tile`transparency16`)
+}
+for (let value of tiles.getTilesByType(assets.tile`myTile6`)) {
+    PrettyPatties = sprites.create(img`
+        . . . . f f f f f f f f . . . . 
+        . . . f 3 3 3 3 3 3 3 3 f . . . 
+        . . f 3 3 3 d 3 3 3 d 3 3 f . . 
+        . f 3 3 d 3 3 3 d 3 3 3 3 3 f . 
+        . f 3 d 3 3 d 3 3 3 d 3 d 3 f . 
+        . f 3 3 3 3 3 3 3 3 3 3 3 3 f . 
+        . f f f f f f f f f f f f f f . 
+        f 3 3 3 3 3 3 3 3 3 3 3 3 3 3 f 
+        f f f f f f f f f f f f f f f f 
+        f 3 3 3 3 3 3 3 3 3 3 3 3 3 3 f 
+        f f f f f f f f f f f f f f f f 
+        f 3 3 3 3 3 3 3 3 3 3 3 3 3 3 f 
+        . f 3 f 3 3 f f 3 3 f 3 3 f f . 
+        . f f 3 f f 3 3 f f 3 f f 3 f . 
+        . f 3 3 3 3 3 3 3 3 3 3 3 3 f . 
+        . . f f f f f f f f f f f f . . 
+        `, SpriteKind.PrettyPatty)
+    tiles.placeOnTile(PrettyPatties, value)
+    tiles.setTileAt(value, assets.tile`transparency16`)
+}
+for (let value of tiles.getTilesByType(assets.tile`myTile5`)) {
+    GoldenPatty = sprites.create(img`
+        . . . . f f f f f f f f . . . . 
+        . . . f 5 5 5 5 5 5 5 5 f . . . 
+        . . f 5 5 5 f 5 5 5 f 5 5 f . . 
+        . f 5 5 f 5 5 5 f 5 5 5 5 5 f . 
+        . f 5 f 5 5 f 5 5 5 f 5 f 5 f . 
+        . f 5 5 5 5 5 5 5 5 5 5 5 5 f . 
+        . f f f f f f f f f f f f f f . 
+        f 5 5 5 5 5 5 5 5 5 5 5 5 5 5 f 
+        f f f f f f f f f f f f f f f f 
+        f 5 5 5 5 5 5 5 5 5 5 5 5 5 5 f 
+        f f f f f f f f f f f f f f f f 
+        f 5 5 5 5 5 5 5 5 5 5 5 5 5 5 f 
+        . f 5 f 5 5 f f 5 5 f 5 5 f f . 
+        . f f 5 f f 5 5 f f 5 f f 5 f . 
+        . f 5 5 5 5 5 5 5 5 5 5 5 5 f . 
+        . . f f f f f f f f f f f f . . 
+        `, SpriteKind.GoldPatty)
+    tiles.placeOnTile(GoldenPatty, value)
+    tiles.setTileAt(value, assets.tile`transparency16`)
+}
+for (let value of tiles.getTilesByType(assets.tile`myTile7`)) {
+    Message = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Important)
+    tiles.placeOnTile(Message, value)
+    tiles.setTileAt(value, assets.tile`transparency16`)
 }
